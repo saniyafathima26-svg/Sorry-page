@@ -1,106 +1,224 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Sukoon</title>
 
 <style>
-body{
-  margin:0;
-  height:100vh;
-  background: radial-gradient(circle at top, #141414, #000);
-  font-family:"Segoe UI", Arial, sans-serif;
-  color:white;
-  overflow:hidden;
-  position:relative;
-}
+  body{
+    margin:0;
+    height:100vh;
+    background: radial-gradient(circle at top, #141414, #000);
+    font-family:"Segoe UI", Arial, sans-serif;
+    color:#fff;
+    overflow:hidden;
+    position:relative;
+  }
 
-/* Centered Card */
-.card{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  width:min(520px,92vw);
-  padding:40px 30px;
-  border-radius:22px;
-  text-align:center;
-  background:rgba(255,255,255,0.06);
-  border:1px solid rgba(255,255,255,0.12);
-  backdrop-filter:blur(12px);
-  box-shadow:0 20px 60px rgba(0,0,0,0.65);
-}
+  /* Centered Card */
+  .card{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:min(560px,92vw);
+    padding:40px 30px;
+    border-radius:22px;
+    text-align:center;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.12);
+    backdrop-filter:blur(12px);
+    box-shadow:0 20px 60px rgba(0,0,0,0.65);
+  }
 
-.card h2{
-  margin-bottom:30px;
-}
+  h1,h2{ margin:0 0 18px; }
+  .card h2{ margin-bottom:26px; }
+  p{ margin:8px 0; opacity:0.95; }
 
-/* NO button stays aligned under question */
-.no{
-  padding:14px 36px;
-  border:none;
-  border-radius:999px;
-  font-size:16px;
-  cursor:pointer;
-  background:white;
-  color:black;
-  transition:.2s;
-}
+  /* Buttons */
+  .btn{
+    padding:14px 36px;
+    border:none;
+    border-radius:999px;
+    font-size:16px;
+    cursor:pointer;
+    transition:.2s;
+    user-select:none;
+  }
 
-.no:hover{
-  transform:scale(1.05);
-}
+  /* Stable button inside card */
+  .stable{
+    background:#fff;
+    color:#111;
+    box-shadow:0 8px 18px rgba(255,255,255,0.12);
+  }
+  .stable:hover{ transform:scale(1.05); }
 
-/* YES moves full screen */
-.yes{
-  position:absolute;
-  padding:14px 36px;
-  border:none;
-  border-radius:999px;
-  font-size:16px;
-  cursor:pointer;
-  background:linear-gradient(45deg,#ff2b2b,#ff6b6b);
-  color:white;
-  box-shadow:0 0 25px rgba(255,0,0,0.4);
-  transition:.15s;
-}
+  /* Full-screen moving button */
+  .moving{
+    position:absolute;
+    background:linear-gradient(45deg,#ff2b2b,#ff6b6b);
+    color:#fff;
+    box-shadow:0 0 25px rgba(255,0,0,0.4);
+    transition:.15s;
+  }
+
+  .page{ display:none; }
+  .page.active{ display:block; }
+
+  audio{ width:100%; margin-top:16px; }
 </style>
 </head>
 
 <body>
 
-<div class="card">
-  <h2>Do you really think you can find Sukoon without my bakbak?</h2>
-  <button id="no" class="no">NO</button>
+<!-- FULL SCREEN MOVING BUTTON (reused across pages) -->
+<button id="moveBtn" class="btn moving"></button>
+
+<!-- PAGES -->
+<div id="p1" class="page active">
+  <div class="card">
+    <h2>Do you really think you can find Sukoon without my bakbak?</h2>
+    <button id="p1Stable" class="btn stable">NO</button>
+  </div>
 </div>
 
-<button id="yes" class="yes">YES</button>
+<div id="p2" class="page">
+  <div class="card">
+    <h2>Are you angry with me?</h2>
+    <button id="p2Stable" class="btn stable">NO</button>
+  </div>
+</div>
+
+<div id="p3" class="page">
+  <div class="card">
+    <h2>Do you like listening to me?</h2>
+    <button id="p3Stable" class="btn stable">YES</button>
+  </div>
+</div>
+
+<div id="p4" class="page">
+  <div class="card">
+    <h2>Am I your favourite?</h2>
+    <button id="p4Stable" class="btn stable">YES</button>
+  </div>
+</div>
+
+<div id="p5" class="page">
+  <div class="card">
+    <h2>Sani’s way or Fais way?</h2>
+    <button id="p5Stable" class="btn stable">SANI’S WAY</button>
+  </div>
+</div>
+
+<div id="p6" class="page">
+  <div class="card">
+    <h2>Faisss, Aap convince ho gaye ki mai aur bolun?</h2>
+    <button id="p6Stable" class="btn stable">I SURRENDER</button>
+  </div>
+</div>
+
+<div id="p7" class="page">
+  <div class="card">
+    <h1>Sorry yaar…</h1>
+    <p> Quick Fix?cement works 🥺</p>
+
+    <div style="margin-top:14px; font-size:18px; line-height:1.75;">
+      <p>Tu jo rootha toh kaun hansega</p>
+      <p>Tu jo chhoota toh kaun rahega</p>
+      <p>Tu chup hai toh yeh darr lagta hai</p>
+      <p>Apna mujhko ab kaun kahega</p>
+      <p>Meethi si woh... gaali teri</p>
+      <p>Sun’ne ko taiyaar hoon main</p>
+    </div>
+
+    <audio id="song" controls preload="auto">
+      <source src="song.mp3" type="audio/mpeg" />
+    </audio>
+
+    <button class="btn stable" style="margin-top:12px;" onclick="playSong()">Play 🎶</button>
+  </div>
+</div>
 
 <script>
-const yes = document.getElementById("yes");
+  const moveBtn = document.getElementById("moveBtn");
+  const pages = ["p1","p2","p3","p4","p5","p6","p7"];
+  let currentPage = "p1";
 
-/* Initial YES position (center-right of screen) */
-function placeYes(){
-  yes.style.left = window.innerWidth/2 + 120 + "px";
-  yes.style.top  = window.innerHeight/2 + "px";
-}
+  // For each page:
+  // - stable button text (clickable)
+  // - moving button text (escapes, not clickable)
+  const config = {
+    p1: { stableText: "NO",         movingText: "YES",       next: "p2" },
+    p2: { stableText: "NO",         movingText: "YES",       next: "p3" },
+    p3: { stableText: "YES",        movingText: "NO",        next: "p4" },
+    p4: { stableText: "YES",        movingText: "NO",        next: "p5" },
+    p5: { stableText: "SANI’S WAY", movingText: "YOUR WAY",  next: "p6" },
+    p6: { stableText: "I SURRENDER",movingText: "NEVER",     next: "p7" },
+    p7: { stableText: "",           movingText: "",          next: ""   }
+  };
 
-window.onload = placeYes;
-window.onresize = placeYes;
+  function show(id){
+    pages.forEach(p => document.getElementById(p).classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+    currentPage = id;
 
-/* Full screen escape */
-function moveYes(){
-  const maxX = window.innerWidth - yes.offsetWidth;
-  const maxY = window.innerHeight - yes.offsetHeight;
+    if(id === "p7"){
+      moveBtn.style.display = "none";
+      playSong();
+      return;
+    }
 
-  yes.style.left = Math.random() * maxX + "px";
-  yes.style.top  = Math.random() * maxY + "px";
-}
+    moveBtn.style.display = "block";
 
-yes.addEventListener("mouseenter", moveYes);
-yes.addEventListener("mousemove", moveYes);
-yes.addEventListener("touchstart", moveYes);
+    // Set texts based on page config
+    moveBtn.textContent = config[id].movingText;
+
+    // Ensure stable button label matches config (in case you change text)
+    const stable = document.getElementById(id + "Stable");
+    stable.textContent = config[id].stableText;
+
+    // Place moving button near center-right initially
+    placeMoveBtn();
+  }
+
+  function placeMoveBtn(){
+    const x = window.innerWidth/2 + 140;
+    const y = window.innerHeight/2;
+    moveBtn.style.left = x + "px";
+    moveBtn.style.top  = y + "px";
+  }
+
+  window.addEventListener("load", () => show("p1"));
+  window.addEventListener("resize", () => { if(currentPage !== "p7") placeMoveBtn(); });
+
+  // Full-screen escape for moving button
+  function moveAway(){
+    const maxX = window.innerWidth - moveBtn.offsetWidth;
+    const maxY = window.innerHeight - moveBtn.offsetHeight;
+
+    moveBtn.style.left = (Math.random() * maxX) + "px";
+    moveBtn.style.top  = (Math.random() * maxY) + "px";
+  }
+
+  moveBtn.addEventListener("mouseenter", moveAway);
+  moveBtn.addEventListener("mousemove", moveAway);
+  moveBtn.addEventListener("touchstart", moveAway);
+
+  // Click routes for stable buttons
+  document.getElementById("p1Stable").onclick = () => show(config.p1.next);
+  document.getElementById("p2Stable").onclick = () => show(config.p2.next);
+  document.getElementById("p3Stable").onclick = () => show(config.p3.next);
+  document.getElementById("p4Stable").onclick = () => show(config.p4.next);
+  document.getElementById("p5Stable").onclick = () => show(config.p5.next);
+  document.getElementById("p6Stable").onclick = () => show(config.p6.next);
+
+  function playSong(){
+    const song = document.getElementById("song");
+    if(!song) return;
+    song.play().catch(()=>{});
+  }
 </script>
 
 </body>
