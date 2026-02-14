@@ -1,268 +1,106 @@
-html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sukoon</title>
-  <style>
-    body{
-      margin:0;
-      height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background: radial-gradient(circle at top, #141414, #000);
-      color:#fff;
-      font-family:"Segoe UI", Arial, sans-serif;
-      overflow:hidden;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sukoon</title>
 
-    .card{
-      width:min(520px, 92vw);
-      padding:38px 28px;
-      border-radius:22px;
-      text-align:center;
-      background: rgba(255,255,255,0.06);
-      border:1px solid rgba(255,255,255,0.12);
-      backdrop-filter: blur(12px);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.65);
-    }
+<style>
+body{
+  margin:0;
+  height:100vh;
+  background: radial-gradient(circle at top, #141414, #000);
+  font-family: "Segoe UI", Arial, sans-serif;
+  color:white;
+  overflow:hidden;
+  position:relative;
+}
 
-    h1,h2{ margin:0 0 18px; }
-    p{ margin:8px 0; opacity:0.95; }
+/* Centered card */
+.card{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:min(520px, 92vw);
+  padding:38px 28px;
+  border-radius:22px;
+  text-align:center;
+  background: rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.65);
+}
 
-    /* BIG space for chasing */
-    .btn-area{
-      margin-top:22px;
-      position:relative;
-      width:100%;
-      height:200px;
-    }
+/* FULL SCREEN BUTTONS */
+button{
+  position:absolute;
+  padding:14px 34px;
+  border:none;
+  border-radius:999px;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.15s;
+}
 
-    button{
-      padding:12px 32px;
-      border:none;
-      border-radius:999px;
-      font-size:16px;
-      cursor:pointer;
-      transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
-      user-select:none;
-      position:absolute; /* all buttons placed via JS */
-    }
+.yes{
+  background: linear-gradient(45deg, #ff2b2b, #ff6b6b);
+  color:white;
+  box-shadow:0 0 25px rgba(255,0,0,0.4);
+}
 
-    .btn-yes{
-      background: linear-gradient(45deg, #ff2b2b, #ff6b6b);
-      color:#fff;
-      box-shadow: 0 10px 24px rgba(255, 0, 0, 0.25);
-    }
+.no{
+  background:white;
+  color:black;
+}
 
-    .btn-no{
-      background:#fff;
-      color:#111;
-      box-shadow: 0 8px 18px rgba(255,255,255,0.12);
-    }
-    .btn-no:hover{ transform: translateY(-1px) scale(1.03); }
-
-    .continue{
-      background: linear-gradient(45deg, #ff2b2b, #ff6b6b);
-      color:white;
-      box-shadow: 0 10px 24px rgba(255, 0, 0, 0.25);
-    }
-    .continue:hover{ transform: translateY(-1px) scale(1.03); }
-
-    .page{ display:none; }
-    .page.active{ display:block; }
-
-    audio{ width:100%; margin-top:16px; }
-  </style>
+button:hover{
+  transform:scale(1.05);
+}
+</style>
 </head>
 
 <body>
-  <div class="card">
 
-    <!-- PAGE 1 -->
-    <div id="p1" class="page active">
-      <h2>Do you really think you can find Sukoon without my bakbak?</h2>
-      <div class="btn-area" id="area1">
-        <button id="yes1" class="btn-yes">YES</button>
-        <button id="no1" class="btn-no">NO</button>
-      </div>
-    </div>
+<div class="card">
+  <h2>Do you really think you can find Sukoon without my bakbak?</h2>
+</div>
 
-    <!-- PAGE 2 -->
-    <div id="p2" class="page">
-      <h2>Are you angry with me?</h2>
-      <div class="btn-area" id="area2">
-        <button id="yes2" class="btn-yes">YES</button>
-        <button id="no2" class="btn-no">NO</button>
-      </div>
-    </div>
-
-    <!-- PAGE 3 -->
-    <div id="p3" class="page">
-      <h2>Do you think you listen to me?</h2>
-      <div class="btn-area" id="area3">
-        <button id="yes3" class="continue">YES</button>
-        <button id="no3" class="btn-no">NO</button>
-      </div>
-    </div>
-
-    <!-- PAGE 4 -->
-    <div id="p4" class="page">
-      <h2>Am I your favourite?</h2>
-      <div class="btn-area" id="area4">
-        <button id="yes4" class="continue">YES</button>
-        <button id="no4" class="btn-no">NO</button>
-      </div>
-    </div>
-
-    <!-- PAGE 5 -->
-    <div id="p5" class="page">
-      <h2>Sani’s way or your way?</h2>
-      <div class="btn-area" id="area5">
-        <button id="myWay" class="continue">SANI’S WAY</button>
-        <button id="yourWay" class="btn-no">YOUR WAY</button>
-      </div>
-    </div>
-
-    <!-- PAGE 6 -->
-    <div id="p6" class="page">
-      <h2>Faisss, ab convince ho gaye ki mai aur bolun?</h2>
-      <div class="btn-area" id="area6">
-        <button id="surrender" class="continue">I SURRENDER</button>
-        <button id="never" class="btn-no">NEVER</button>
-      </div>
-    </div>
-
-    <!-- FINAL PAGE -->
-    <div id="p7" class="page">
-      <h1>Sorry yaar…</h1>
-      <p>Maff kardallo 🥺</p>
-
-      <div style="margin-top:14px; font-size:18px; line-height:1.75;">
-        <p>Tu jo rootha toh kaun hansega</p>
-        <p>Tu jo chhoota toh kaun rahega</p>
-        <p>Tu chup hai toh yeh darr lagta hai</p>
-        <p>Apna mujhko ab kaun kahega</p>
-        <p>Meethi si woh... gaali teri</p>
-        <p>Sun’ne ko taiyaar hoon main</p>
-      </div>
-
-      <audio id="song" controls preload="auto">
-        <source src="song.mp3" type="audio/mpeg">
-      </audio>
-
-      <button id="playBtn" class="continue" style="position:static; margin-top:12px;" onclick="playSong()">Play 🎶</button>
-    </div>
-
-  </div>
+<button id="yes" class="yes">YES</button>
+<button id="no" class="no">NO</button>
 
 <script>
-  // IMPORTANT: this file contains NO html markers. If you still see "html" on screen,
-  // delete any backticks from your saved file and ensure it starts with <!DOCTYPE html>.
 
-  const pages = ["p1","p2","p3","p4","p5","p6","p7"];
+const yes = document.getElementById("yes");
+const no = document.getElementById("no");
 
-  function show(id){
-    pages.forEach(p => document.getElementById(p).classList.remove("active"));
-    document.getElementById(id).classList.add("active");
-    if(id === "p7") playSong();
-    requestAnimationFrame(placeAll); // re-place buttons when page changes
-  }
+/* Initial placement */
+function placeInitial(){
+  yes.style.left = window.innerWidth/2 + 60 + "px";
+  yes.style.top  = window.innerHeight/2 + "px";
 
-  function place(btn, area, xPct, yPct){
-    const r = area.getBoundingClientRect();
-    const bw = btn.offsetWidth;
-    const bh = btn.offsetHeight;
-    btn.style.left = (r.width * xPct - bw/2) + "px";
-    btn.style.top  = (r.height * yPct - bh/2) + "px";
-  }
+  no.style.left  = window.innerWidth/2 - 140 + "px";
+  no.style.top   = window.innerHeight/2 + "px";
+}
 
-  // ESCAPE with big area + big jumps
-  function makeEscape(btn, area){
-    function move(){
-      const r = area.getBoundingClientRect();
-      const bw = btn.offsetWidth;
-      const bh = btn.offsetHeight;
-      const maxX = r.width - bw;
-      const maxY = r.height - bh;
-      btn.style.left = (Math.random() * maxX) + "px";
-      btn.style.top  = (Math.random() * maxY) + "px";
-    }
-    btn.addEventListener("mouseenter", move);
-    btn.addEventListener("mousemove", move);
-    btn.addEventListener("touchstart", move);
-    return move;
-  }
+window.onload = placeInitial;
+window.onresize = placeInitial;
 
-  // Elements
-  const yes1 = document.getElementById("yes1"), no1 = document.getElementById("no1");
-  const yes2 = document.getElementById("yes2"), no2 = document.getElementById("no2");
-  const yes3 = document.getElementById("yes3"), no3 = document.getElementById("no3");
-  const yes4 = document.getElementById("yes4"), no4 = document.getElementById("no4");
-  const myWay = document.getElementById("myWay"), yourWay = document.getElementById("yourWay");
-  const surrender = document.getElementById("surrender"), never = document.getElementById("never");
+/* FULL SCREEN ESCAPE */
+function move(btn){
+  const maxX = window.innerWidth - btn.offsetWidth;
+  const maxY = window.innerHeight - btn.offsetHeight;
 
-  const area1 = document.getElementById("area1");
-  const area2 = document.getElementById("area2");
-  const area3 = document.getElementById("area3");
-  const area4 = document.getElementById("area4");
-  const area5 = document.getElementById("area5");
-  const area6 = document.getElementById("area6");
+  btn.style.left = Math.random() * maxX + "px";
+  btn.style.top  = Math.random() * maxY + "px";
+}
 
-  // Initial placements (neat center positions)
-  function placeAll(){
-    // Only place buttons for visible page (avoids weird offsets)
-    if(document.getElementById("p1").classList.contains("active")){
-      place(no1, area1, 0.40, 0.55);
-      place(yes1, area1, 0.60, 0.55);
-    }
-    if(document.getElementById("p2").classList.contains("active")){
-      place(no2, area2, 0.40, 0.55);
-      place(yes2, area2, 0.60, 0.55);
-    }
-    if(document.getElementById("p3").classList.contains("active")){
-      place(yes3, area3, 0.45, 0.55);
-      place(no3, area3, 0.70, 0.55);
-    }
-    if(document.getElementById("p4").classList.contains("active")){
-      place(yes4, area4, 0.45, 0.55);
-      place(no4, area4, 0.70, 0.55);
-    }
-    if(document.getElementById("p5").classList.contains("active")){
-      place(myWay, area5, 0.45, 0.55);
-      place(yourWay, area5, 0.70, 0.55);
-    }
-    if(document.getElementById("p6").classList.contains("active")){
-      place(surrender, area6, 0.45, 0.55);
-      place(never, area6, 0.70, 0.55);
-    }
-  }
+/* Make YES escape */
+yes.addEventListener("mouseenter", () => move(yes));
+yes.addEventListener("mousemove", () => move(yes));
+yes.addEventListener("touchstart", () => move(yes));
 
-  window.addEventListener("load", () => requestAnimationFrame(placeAll));
-  window.addEventListener("resize", () => requestAnimationFrame(placeAll));
-
-  // Escape rules
-  makeEscape(yes1, area1);      // Page1 YES escapes
-  makeEscape(yes2, area2);      // Page2 YES escapes
-  makeEscape(no3, area3);       // Page3 NO escapes
-  makeEscape(no4, area4);       // Page4 NO escapes
-  makeEscape(yourWay, area5);   // Page5 YOUR WAY escapes
-  makeEscape(never, area6);     // Page6 NEVER escapes
-
-  // Navigation
-  no1.onclick = () => show("p2");
-  no2.onclick = () => show("p3");
-  yes3.onclick = () => show("p4");
-  yes4.onclick = () => show("p5");
-  myWay.onclick = () => show("p6");
-  surrender.onclick = () => show("p7");
-
-  function playSong(){
-    const song = document.getElementById("song");
-    song.play().catch(()=>{});
-  }
 </script>
+
 </body>
 </html>
