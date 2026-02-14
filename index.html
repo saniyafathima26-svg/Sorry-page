@@ -104,18 +104,17 @@ button:hover{
 <div class="container hidden" id="finalMessage">
   <h2>I'm truly sorry ❤️</h2>
   <p class="final">
-    I never wanted to hurt you.  
-    You matter to me more than my ego.  
+    I never wanted to hurt you.<br>
+    You matter to me more than my ego.<br>
     I promise to be better, not just say it.
   </p>
 </div>
 
-<!-- 🎵 INSERT YOUR SONG LINK BELOW -->
-<!-- Replace the src with your YouTube embed link -->
+<!-- 🎵 YouTube song (22s to 45s autoplay on final slide) -->
 <iframe id="song"
-src="https://www.youtube.com/embed/YOUR_VIDEO_ID?autoplay=1&loop=1&playlist=YOUR_VIDEO_ID"
-allow="autoplay"
-style="display:none">
+  src="https://www.youtube.com/embed/pUh-rdWlIcY?start=22&end=45&autoplay=1&loop=1&playlist=pUh-rdWlIcY&controls=0&modestbranding=1&rel=0"
+  allow="autoplay; encrypted-media"
+  style="display:none; width:0; height:0; border:0;">
 </iframe>
 
 <script>
@@ -129,7 +128,11 @@ function showFinal(){
   document.querySelectorAll('.container').forEach(el=>el.classList.add('hidden'));
   document.getElementById('finalMessage').classList.remove('hidden');
   startHearts();
-  document.getElementById("song").style.display="block";
+
+  // Restart video when final appears
+  const iframe = document.getElementById("song");
+  iframe.style.display = "block";
+  iframe.src = iframe.src;
 }
 
 function moveButton(btn){
