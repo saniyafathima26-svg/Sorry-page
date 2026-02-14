@@ -1,3 +1,4 @@
+html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,6 +31,7 @@
     border:1px solid rgba(255,255,255,0.12);
     backdrop-filter:blur(12px);
     box-shadow:0 20px 60px rgba(0,0,0,0.65);
+    z-index: 2; /* card stays below moving button */
   }
 
   h1,h2{ margin:0 0 18px; }
@@ -61,7 +63,7 @@
     background:linear-gradient(45deg,#ff2b2b,#ff6b6b);
     color:#fff;
     box-shadow:0 0 25px rgba(255,0,0,0.4);
-    transition:.15s;
+    z-index: 9999; /* ✅ ALWAYS on top */
   }
 
   .page{ display:none; }
@@ -93,7 +95,7 @@
 
 <div id="p3" class="page">
   <div class="card">
-    <h2>Do you like listening to me?</h2>
+    <h2>Do you think you listen to me?</h2>
     <button id="p3Stable" class="btn stable">YES</button>
   </div>
 </div>
@@ -107,14 +109,14 @@
 
 <div id="p5" class="page">
   <div class="card">
-    <h2>Sani’s way or Fais way?</h2>
+    <h2>Sani’s way or your way?</h2>
     <button id="p5Stable" class="btn stable">SANI’S WAY</button>
   </div>
 </div>
 
 <div id="p6" class="page">
   <div class="card">
-    <h2>Faisss, Aap convince ho gaye ki mai aur bolun?</h2>
+    <h2>Faisss, ab convince ho gaye ki mai aur bolun?</h2>
     <button id="p6Stable" class="btn stable">I SURRENDER</button>
   </div>
 </div>
@@ -122,7 +124,7 @@
 <div id="p7" class="page">
   <div class="card">
     <h1>Sorry yaar…</h1>
-    <p> Quick Fix?cement works 🥺</p>
+    <p>Maff kardallo 🥺</p>
 
     <div style="margin-top:14px; font-size:18px; line-height:1.75;">
       <p>Tu jo rootha toh kaun hansega</p>
@@ -146,17 +148,14 @@
   const pages = ["p1","p2","p3","p4","p5","p6","p7"];
   let currentPage = "p1";
 
-  // For each page:
-  // - stable button text (clickable)
-  // - moving button text (escapes, not clickable)
   const config = {
-    p1: { stableText: "NO",         movingText: "YES",       next: "p2" },
-    p2: { stableText: "NO",         movingText: "YES",       next: "p3" },
-    p3: { stableText: "YES",        movingText: "NO",        next: "p4" },
-    p4: { stableText: "YES",        movingText: "NO",        next: "p5" },
-    p5: { stableText: "SANI’S WAY", movingText: "YOUR WAY",  next: "p6" },
-    p6: { stableText: "I SURRENDER",movingText: "NEVER",     next: "p7" },
-    p7: { stableText: "",           movingText: "",          next: ""   }
+    p1: { movingText: "YES",      next: "p2" },
+    p2: { movingText: "YES",      next: "p3" },
+    p3: { movingText: "NO",       next: "p4" },
+    p4: { movingText: "NO",       next: "p5" },
+    p5: { movingText: "YOUR WAY", next: "p6" },
+    p6: { movingText: "NEVER",    next: "p7" },
+    p7: { movingText: "",         next: ""   }
   };
 
   function show(id){
@@ -171,21 +170,15 @@
     }
 
     moveBtn.style.display = "block";
-
-    // Set texts based on page config
     moveBtn.textContent = config[id].movingText;
 
-    // Ensure stable button label matches config (in case you change text)
-    const stable = document.getElementById(id + "Stable");
-    stable.textContent = config[id].stableText;
-
-    // Place moving button near center-right initially
     placeMoveBtn();
   }
 
   function placeMoveBtn(){
-    const x = window.innerWidth/2 + 140;
-    const y = window.innerHeight/2;
+    // Place near center-right (visible)
+    const x = window.innerWidth * 0.66;
+    const y = window.innerHeight * 0.55;
     moveBtn.style.left = x + "px";
     moveBtn.style.top  = y + "px";
   }
@@ -193,11 +186,9 @@
   window.addEventListener("load", () => show("p1"));
   window.addEventListener("resize", () => { if(currentPage !== "p7") placeMoveBtn(); });
 
-  // Full-screen escape for moving button
   function moveAway(){
     const maxX = window.innerWidth - moveBtn.offsetWidth;
     const maxY = window.innerHeight - moveBtn.offsetHeight;
-
     moveBtn.style.left = (Math.random() * maxX) + "px";
     moveBtn.style.top  = (Math.random() * maxY) + "px";
   }
@@ -206,7 +197,7 @@
   moveBtn.addEventListener("mousemove", moveAway);
   moveBtn.addEventListener("touchstart", moveAway);
 
-  // Click routes for stable buttons
+  // Stable button routes
   document.getElementById("p1Stable").onclick = () => show(config.p1.next);
   document.getElementById("p2Stable").onclick = () => show(config.p2.next);
   document.getElementById("p3Stable").onclick = () => show(config.p3.next);
@@ -223,3 +214,4 @@
 
 </body>
 </html>
+
