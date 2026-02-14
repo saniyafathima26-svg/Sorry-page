@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,7 +30,6 @@
   h1,h2{ margin:0 0 18px; }
   p{ margin:8px 0; opacity:0.95; }
 
-  /* Button Area (keeps moving buttons in frame) */
   .btn-area{
     margin-top:22px;
     position:relative;
@@ -74,8 +74,6 @@
   .page{ display:none; }
   .page.active{ display:block; }
 
-  .small{ opacity:.85; font-size:14px; margin-top:10px; }
-
   audio{ width:100%; margin-top:16px; }
 </style>
 </head>
@@ -83,27 +81,25 @@
 <body>
   <div class="card">
 
-    <!-- PAGE 1: YES escapes, NO works -->
+    <!-- PAGE 1 -->
     <div id="p1" class="page active">
       <h2>Do you really think you can find Sukoon without my bakbak?</h2>
       <div class="btn-area" id="area1">
         <button id="yes1" class="btn-yes">YES</button>
         <button id="no1" class="btn-no">NO</button>
       </div>
-      <div class="small">(Try pressing YES 😏)</div>
     </div>
 
-    <!-- PAGE 2: Are you angry? YES escapes so must click NO -->
+    <!-- PAGE 2 -->
     <div id="p2" class="page">
       <h2>Are you angry with me?</h2>
       <div class="btn-area" id="area2">
         <button id="yes2" class="btn-yes">YES</button>
         <button id="no2" class="btn-no">NO</button>
       </div>
-      <div class="small">Only one answer is allowed 😌</div>
     </div>
 
-    <!-- PAGE 3: NO escapes so must click YES -->
+    <!-- PAGE 3 -->
     <div id="p3" class="page">
       <h2>Do you think you listen to me?</h2>
       <div class="btn-area" id="area3">
@@ -112,7 +108,7 @@
       </div>
     </div>
 
-    <!-- PAGE 4: NO escapes so must click YES -->
+    <!-- PAGE 4 -->
     <div id="p4" class="page">
       <h2>Am I your favourite?</h2>
       <div class="btn-area" id="area4">
@@ -121,18 +117,26 @@
       </div>
     </div>
 
-    <!-- PAGE 5: Your way escapes so must click Sani's way -->
+    <!-- PAGE 5 -->
     <div id="p5" class="page">
       <h2>Sani’s way or your way?</h2>
       <div class="btn-area" id="area5">
         <button id="myWay" class="continue">SANI’S WAY</button>
         <button id="yourWay" class="btn-no" style="position:absolute;">YOUR WAY</button>
       </div>
-      <div class="small">Since you made it till here… directly or indirectly you agreed 😏</div>
     </div>
 
-    <!-- FINAL PAGE: sorry + song -->
+    <!-- PAGE 6: SURRENDER -->
     <div id="p6" class="page">
+      <h2>Faisss, ab convince ho gaye ki mai aur bolun?</h2>
+      <div class="btn-area" id="area6">
+        <button id="surrender" class="continue">I SURRENDER</button>
+        <button id="never" class="btn-no" style="position:absolute;">NEVER</button>
+      </div>
+    </div>
+
+    <!-- FINAL PAGE -->
+    <div id="p7" class="page">
       <h1>Sorry yaar…</h1>
       <p>Maff kardallo 🥺</p>
 
@@ -145,26 +149,23 @@
         <p>Sun’ne ko taiyaar hoon main</p>
       </div>
 
-      <!-- Put an audio file in same folder named song.mp3 -->
       <audio id="song" controls preload="auto">
         <source src="song.mp3" type="audio/mpeg">
       </audio>
 
-      <button class="continue" style="margin-top:12px;" onclick="playSong()">Tap to play 🎶</button>
-      <div class="small">Autoplay may be blocked, so tap once.</div>
+      <button class="continue" style="margin-top:12px;" onclick="playSong()">Play 🎶</button>
     </div>
 
   </div>
 
 <script>
-  const pages = ["p1","p2","p3","p4","p5","p6"];
+  const pages = ["p1","p2","p3","p4","p5","p6","p7"];
   const show = (id) => {
     pages.forEach(p => document.getElementById(p).classList.remove("active"));
     document.getElementById(id).classList.add("active");
-    if(id === "p6") playSong();
+    if(id === "p7") playSong();
   };
 
-  // Escape helper (keeps button inside its own btn-area)
   function makeEscape(btn, area){
     function placeNearCenter(){
       const r = area.getBoundingClientRect();
@@ -192,16 +193,13 @@
     btn.addEventListener("touchstart", move);
   }
 
-  // Page 1: YES escapes
-  makeEscape(document.getElementById("yes1"), document.getElementById("area1"));
-  // Page 2: YES escapes (forces NO)
-  makeEscape(document.getElementById("yes2"), document.getElementById("area2"));
-  // Page 3: NO escapes (forces YES)
-  makeEscape(document.getElementById("no3"), document.getElementById("area3"));
-  // Page 4: NO escapes (forces YES)
-  makeEscape(document.getElementById("no4"), document.getElementById("area4"));
-  // Page 5: YOUR WAY escapes (forces SANI'S WAY)
-  makeEscape(document.getElementById("yourWay"), document.getElementById("area5"));
+  // Escapes
+  makeEscape(document.getElementById("yes1"), document.getElementById("area1"));   // Page1 YES escapes
+  makeEscape(document.getElementById("yes2"), document.getElementById("area2"));   // Page2 YES escapes
+  makeEscape(document.getElementById("no3"), document.getElementById("area3"));    // Page3 NO escapes
+  makeEscape(document.getElementById("no4"), document.getElementById("area4"));    // Page4 NO escapes
+  makeEscape(document.getElementById("yourWay"), document.getElementById("area5")); // Page5 YOUR WAY escapes
+  makeEscape(document.getElementById("never"), document.getElementById("area6"));  // Page6 NEVER escapes
 
   // Click routes
   document.getElementById("no1").onclick = () => show("p2");
@@ -209,6 +207,7 @@
   document.getElementById("yes3").onclick = () => show("p4");
   document.getElementById("yes4").onclick = () => show("p5");
   document.getElementById("myWay").onclick = () => show("p6");
+  document.getElementById("surrender").onclick = () => show("p7");
 
   function playSong(){
     const song = document.getElementById("song");
@@ -217,3 +216,4 @@
 </script>
 </body>
 </html>
+```
