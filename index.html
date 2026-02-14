@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sorry Yaar</title>
+<title>Sani Sorry</title>
 <style>
   body{
     margin:0;
@@ -49,11 +49,11 @@
   }
 
   .yes{
+    position:absolute;
     background: linear-gradient(45deg, #ff2b2b, #ff6b6b);
     color:#fff;
     box-shadow: 0 10px 24px rgba(255, 0, 0, 0.25);
   }
-  .yes:hover{ transform: translateY(-1px) scale(1.03); }
 
   .no{
     position:absolute;
@@ -62,62 +62,76 @@
     box-shadow: 0 8px 18px rgba(255,255,255,0.12);
   }
 
+  .fixed{
+    position:static !important;
+    margin:0 10px;
+  }
+
   .page{ display:none; }
   .page.active{ display:block; }
 
   .small{ opacity:0.85; font-size:14px; margin-top:10px; }
-
-  audio { width: 100%; margin-top: 18px; }
+  audio{ width:100%; margin-top:16px; }
 </style>
 </head>
 
 <body>
   <div class="card">
 
-    <!-- PAGE 1 -->
+    <!-- PAGE 1: YES escapes, NO works -->
     <div id="p1" class="page active">
-      <h2>Do you want me?</h2>
-      <div class="btn-area">
-        <button class="yes" onclick="go('p2')">YES</button>
-        <button class="no" id="no1">NO</button>
+      <h2>Do you really think you can find Sukoon without my bakbak?</h2>
+      <div class="btn-area" id="area1">
+        <button class="yes" id="yes1">YES</button>
+        <button class="no fixed" id="no1">NO</button>
       </div>
-      <div class="small">(NO is not an option 😌)</div>
+      <div class="small">(Try pressing YES 😏)</div>
     </div>
 
-    <!-- PAGE 2 -->
+    <!-- PAGE 2: "Are you angry with me?" only NO clickable, YES escapes -->
     <div id="p2" class="page">
-      <h2>Do you think you listen to me?</h2>
-      <div class="btn-area">
-        <button class="yes" onclick="go('p3')">YES</button>
-        <button class="no" id="no2">NO</button>
+      <h2>Are you angry with me?</h2>
+      <div class="btn-area" id="area2">
+        <button class="yes" id="yes2">YES</button>
+        <button class="no fixed" id="no2">NO</button>
       </div>
+      <div class="small">(Only one answer allowed 😌)</div>
     </div>
 
-    <!-- PAGE 3 -->
+    <!-- PAGE 3: NO escapes, must click YES -->
     <div id="p3" class="page">
-      <h2>Am I your favourite?</h2>
-      <div class="btn-area">
-        <button class="yes" onclick="go('p4')">YES</button>
+      <h2>Do you think you listen to me?</h2>
+      <div class="btn-area" id="area3">
+        <button class="yes fixed" id="yes3">YES</button>
         <button class="no" id="no3">NO</button>
       </div>
     </div>
 
-    <!-- PAGE 4 -->
+    <!-- PAGE 4: NO escapes, must click YES -->
     <div id="p4" class="page">
-      <h2>My way or your way?</h2>
-      <div class="btn-area">
-        <button class="yes" onclick="go('p5')">MY WAY</button>
-        <button class="no" id="no4">YOUR WAY</button>
+      <h2>Am I your favourite?</h2>
+      <div class="btn-area" id="area4">
+        <button class="yes fixed" id="yes4">YES</button>
+        <button class="no" id="no4">NO</button>
+      </div>
+    </div>
+
+    <!-- PAGE 5: Your way escapes, must click Sani's way -->
+    <div id="p5" class="page">
+      <h2>Sani’s way or your way?</h2>
+      <div class="btn-area" id="area5">
+        <button class="yes fixed" id="myWay">SANI’S WAY</button>
+        <button class="no" id="yourWay">YOUR WAY</button>
       </div>
       <div class="small">Since you made it till here… directly or indirectly you agreed 😏</div>
     </div>
 
-    <!-- FINAL PAGE -->
-    <div id="p5" class="page">
+    <!-- FINAL -->
+    <div id="p6" class="page">
       <h1>Sorry yaar…</h1>
       <p>Maff kardallo 🥺</p>
 
-      <div style="margin-top:18px; font-size:18px; line-height:1.75;">
+      <div style="margin-top:14px; font-size:18px; line-height:1.75;">
         <p>Tu jo rootha toh kaun hansega</p>
         <p>Tu jo chhoota toh kaun rahega</p>
         <p>Tu chup hai toh yeh darr lagta hai</p>
@@ -126,66 +140,63 @@
         <p>Sun’ne ko taiyaar hoon main</p>
       </div>
 
-      <!-- AUDIO -->
-      <!-- Put your audio file in same folder and name it: song.mp3 -->
+      <!-- AUDIO: Put your audio file as song.mp3 in same folder -->
       <audio id="song" controls preload="auto">
         <source src="song.mp3" type="audio/mpeg">
-        Your browser does not support audio.
       </audio>
 
-      <button class="yes" style="margin-top:14px;" onclick="playSong()">Tap to Play 🎶</button>
-      <div class="small">Tip: browsers block autoplay unless user taps once.</div>
+      <button class="yes fixed" style="margin-top:12px;" onclick="playSong()">Tap to Play 🎶</button>
+      <div class="small">Browsers block autoplay sometimes — tap once.</div>
     </div>
 
   </div>
 
 <script>
-  const pages = ["p1","p2","p3","p4","p5"];
-
+  const pages = ["p1","p2","p3","p4","p5","p6"];
   function go(id){
     pages.forEach(p => document.getElementById(p).classList.remove("active"));
     document.getElementById(id).classList.add("active");
-
-    // try autoplay when reaching final page (may be blocked)
-    if(id === "p5"){
-      playSong();
-    }
+    if(id==="p6") playSong();
   }
 
-  // NO button dance inside its own button-area
-  function makeNoDance(noBtn){
-    const area = noBtn.parentElement;
+  // Move a button randomly inside its button area
+  function makeEscape(btnId, areaId){
+    const btn = document.getElementById(btnId);
+    const area = document.getElementById(areaId);
 
     function move(){
       const rect = area.getBoundingClientRect();
-      const bw = noBtn.offsetWidth;
-      const bh = noBtn.offsetHeight;
+      const bw = btn.offsetWidth;
+      const bh = btn.offsetHeight;
 
       const maxX = rect.width - bw;
       const maxY = rect.height - bh;
 
-      noBtn.style.left = (Math.random() * maxX) + "px";
-      noBtn.style.top  = (Math.random() * maxY) + "px";
+      btn.style.left = (Math.random() * maxX) + "px";
+      btn.style.top  = (Math.random() * maxY) + "px";
     }
 
-    // initial position slightly right
+    // initial place (near center)
     window.addEventListener("load", () => {
-      noBtn.style.left = "62%";
-      noBtn.style.top  = "50%";
-      noBtn.style.transform = "translate(-50%,-50%)";
+      btn.style.left = "60%";
+      btn.style.top  = "50%";
+      btn.style.transform = "translate(-50%,-50%)";
     });
 
-    noBtn.addEventListener("mouseover", move);
-    noBtn.addEventListener("click", move);
-    noBtn.addEventListener("touchstart", move);
+    btn.addEventListener("mouseover", move);
+    btn.addEventListener("click", move);
+    btn.addEventListener("touchstart", move);
   }
 
-  ["no1","no2","no3","no4"].forEach(id => makeNoDance(document.getElementById(id)));
+  // Page 1: YES escapes
+  makeEscape("yes1","area1");
+  // Page 2: YES escapes (forces NO)
+  makeEscape("yes2","area2");
+  // Page 3: NO escapes (forces YES)
+  makeEscape("no3","area3");
+  // Page 4: NO escapes (forces YES)
+  makeEscape("no4","area4");
+  // Page 5: "YOUR WAY" escapes (forces SANI'S WAY)
+  makeEscape("yourWay","area5");
 
-  function playSong(){
-    const song = document.getElementById("song");
-    song.play().catch(()=>{ /* autoplay blocked - user can tap button */ });
-  }
-</script>
-</body>
-</html>
+  // Navigation clic
