@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sukoon</title>
+<title>Sorry Yaar</title>
 <style>
   body{
     margin:0;
@@ -16,7 +16,7 @@
   }
 
   .card{
-    width:min(520px, 92vw);
+    width:min(560px, 92vw);
     padding:38px 28px;
     border-radius:22px;
     text-align:center;
@@ -26,14 +26,13 @@
     box-shadow: 0 20px 60px rgba(0,0,0,0.65);
   }
 
-  h1,h2{ margin:0 0 18px; }
+  h1,h2{ margin:0 0 14px; }
   p{ margin:8px 0; opacity:0.95; }
 
-  /* Button Area (keeps YES in frame) */
   .btn-area{
     margin-top:22px;
     position:relative;
-    height:90px;
+    height:96px;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -49,33 +48,26 @@
     user-select:none;
   }
 
-  #no{
-    background:#fff;
-    color:#111;
-    box-shadow: 0 8px 18px rgba(255,255,255,0.12);
-  }
-  #no:hover{ transform: translateY(-1px) scale(1.03); }
-
-  #yes{
-    position:absolute;
+  .yes{
     background: linear-gradient(45deg, #ff2b2b, #ff6b6b);
     color:#fff;
     box-shadow: 0 10px 24px rgba(255, 0, 0, 0.25);
   }
+  .yes:hover{ transform: translateY(-1px) scale(1.03); }
 
-  .continue{
-    background: linear-gradient(45deg, #ff2b2b, #ff6b6b);
-    color:white;
-    box-shadow: 0 10px 24px rgba(255, 0, 0, 0.25);
+  .no{
+    position:absolute;
+    background:#fff;
+    color:#111;
+    box-shadow: 0 8px 18px rgba(255,255,255,0.12);
   }
-  .continue:hover{ transform: translateY(-1px) scale(1.03); }
 
   .page{ display:none; }
   .page.active{ display:block; }
 
-  /* Final lyrics styling */
-  #p4{ font-size:18px; line-height:1.75; }
-  #p4 h2{ margin-top:18px; }
+  .small{ opacity:0.85; font-size:14px; margin-top:10px; }
+
+  audio { width: 100%; margin-top: 18px; }
 </style>
 </head>
 
@@ -84,94 +76,115 @@
 
     <!-- PAGE 1 -->
     <div id="p1" class="page active">
-      <h2>Do you really think you can find Sukoon without my bakbak?</h2>
-
-      <div class="btn-area" id="btnArea">
-        <button id="yes">YES</button>
-        <button id="no">NO</button>
+      <h2>Do you want me?</h2>
+      <div class="btn-area">
+        <button class="yes" onclick="go('p2')">YES</button>
+        <button class="no" id="no1">NO</button>
       </div>
+      <div class="small">(NO is not an option 😌)</div>
     </div>
 
     <!-- PAGE 2 -->
     <div id="p2" class="page">
-      <h1>Try escaping</h1>
-      <button class="continue" onclick="goP3()">Continue</button>
+      <h2>Do you think you listen to me?</h2>
+      <div class="btn-area">
+        <button class="yes" onclick="go('p3')">YES</button>
+        <button class="no" id="no2">NO</button>
+      </div>
     </div>
 
     <!-- PAGE 3 -->
     <div id="p3" class="page">
-      <h1>Sorry yaar, galti hogayi</h1>
-      <button class="continue" onclick="goP4()">Continue</button>
+      <h2>Am I your favourite?</h2>
+      <div class="btn-area">
+        <button class="yes" onclick="go('p4')">YES</button>
+        <button class="no" id="no3">NO</button>
+      </div>
     </div>
 
     <!-- PAGE 4 -->
     <div id="p4" class="page">
-      <p>Tu jo rootha toh kaun hansega</p>
-      <p>Tu jo chhoota toh kaun rahega</p>
-      <p>Tu chup hai toh yeh darr lagta hai</p>
-      <p>Apna mujhko ab kaun kahega</p>
-      <p>Meethi si woh... gaali teri</p>
-      <p>Sun’ne ko taiyaar hoon main</p>
-      <h2>Sorry yaar</h2>
+      <h2>My way or your way?</h2>
+      <div class="btn-area">
+        <button class="yes" onclick="go('p5')">MY WAY</button>
+        <button class="no" id="no4">YOUR WAY</button>
+      </div>
+      <div class="small">Since you made it till here… directly or indirectly you agreed 😏</div>
+    </div>
+
+    <!-- FINAL PAGE -->
+    <div id="p5" class="page">
+      <h1>Sorry yaar…</h1>
+      <p>Maff kardallo 🥺</p>
+
+      <div style="margin-top:18px; font-size:18px; line-height:1.75;">
+        <p>Tu jo rootha toh kaun hansega</p>
+        <p>Tu jo chhoota toh kaun rahega</p>
+        <p>Tu chup hai toh yeh darr lagta hai</p>
+        <p>Apna mujhko ab kaun kahega</p>
+        <p>Meethi si woh... gaali teri</p>
+        <p>Sun’ne ko taiyaar hoon main</p>
+      </div>
+
+      <!-- AUDIO -->
+      <!-- Put your audio file in same folder and name it: song.mp3 -->
+      <audio id="song" controls preload="auto">
+        <source src="song.mp3" type="audio/mpeg">
+        Your browser does not support audio.
+      </audio>
+
+      <button class="yes" style="margin-top:14px;" onclick="playSong()">Tap to Play 🎶</button>
+      <div class="small">Tip: browsers block autoplay unless user taps once.</div>
     </div>
 
   </div>
 
 <script>
-  const yes = document.getElementById("yes");
-  const no = document.getElementById("no");
-  const btnArea = document.getElementById("btnArea");
+  const pages = ["p1","p2","p3","p4","p5"];
 
-  const p1 = document.getElementById("p1");
-  const p2 = document.getElementById("p2");
-  const p3 = document.getElementById("p3");
-  const p4 = document.getElementById("p4");
+  function go(id){
+    pages.forEach(p => document.getElementById(p).classList.remove("active"));
+    document.getElementById(id).classList.add("active");
 
-  // Put YES initially near center (so it looks aligned)
-  function placeYesCenter(){
-    const area = btnArea.getBoundingClientRect();
-    const bw = yes.offsetWidth;
-    const bh = yes.offsetHeight;
-    yes.style.left = (area.width/2 - bw - 10) + "px";
-    yes.style.top  = (area.height/2 - bh/2) + "px";
-  }
-  window.addEventListener("load", placeYesCenter);
-  window.addEventListener("resize", placeYesCenter);
-
-  // YES escapes but stays INSIDE the button area
-  function moveYes(){
-    const area = btnArea.getBoundingClientRect();
-    const bw = yes.offsetWidth;
-    const bh = yes.offsetHeight;
-
-    const maxX = area.width - bw;
-    const maxY = area.height - bh;
-
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
-
-    yes.style.left = x + "px";
-    yes.style.top = y + "px";
+    // try autoplay when reaching final page (may be blocked)
+    if(id === "p5"){
+      playSong();
+    }
   }
 
-  yes.addEventListener("mouseover", moveYes);
-  yes.addEventListener("click", moveYes);
-  yes.addEventListener("touchstart", moveYes);
+  // NO button dance inside its own button-area
+  function makeNoDance(noBtn){
+    const area = noBtn.parentElement;
 
-  // NO button -> next page
-  no.onclick = () => {
-    p1.classList.remove("active");
-    p2.classList.add("active");
-  };
+    function move(){
+      const rect = area.getBoundingClientRect();
+      const bw = noBtn.offsetWidth;
+      const bh = noBtn.offsetHeight;
 
-  function goP3(){
-    p2.classList.remove("active");
-    p3.classList.add("active");
+      const maxX = rect.width - bw;
+      const maxY = rect.height - bh;
+
+      noBtn.style.left = (Math.random() * maxX) + "px";
+      noBtn.style.top  = (Math.random() * maxY) + "px";
+    }
+
+    // initial position slightly right
+    window.addEventListener("load", () => {
+      noBtn.style.left = "62%";
+      noBtn.style.top  = "50%";
+      noBtn.style.transform = "translate(-50%,-50%)";
+    });
+
+    noBtn.addEventListener("mouseover", move);
+    noBtn.addEventListener("click", move);
+    noBtn.addEventListener("touchstart", move);
   }
 
-  function goP4(){
-    p3.classList.remove("active");
-    p4.classList.add("active");
+  ["no1","no2","no3","no4"].forEach(id => makeNoDance(document.getElementById(id)));
+
+  function playSong(){
+    const song = document.getElementById("song");
+    song.play().catch(()=>{ /* autoplay blocked - user can tap button */ });
   }
 </script>
 </body>
