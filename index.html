@@ -1,67 +1,178 @@
 <!DOCTYPE html>
 <html>
-<body style="background:black;color:white;text-align:center;font-family:Arial;padding-top:80px;">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sukoon</title>
 <style>
-button { 
-  padding:12px 30px; 
-  border:none; 
-  border-radius:8px; 
-  font-size:16px; 
-  cursor:pointer;
-}
+  body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background: radial-gradient(circle at top, #141414, #000);
+    color:#fff;
+    font-family: "Segoe UI", Arial, sans-serif;
+  }
+
+  .card{
+    width:min(520px, 92vw);
+    padding:38px 28px;
+    border-radius:22px;
+    text-align:center;
+    background: rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.12);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.65);
+  }
+
+  h1,h2{ margin:0 0 18px; }
+  p{ margin:8px 0; opacity:0.95; }
+
+  /* Button Area (keeps YES in frame) */
+  .btn-area{
+    margin-top:22px;
+    position:relative;
+    height:90px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  button{
+    padding:12px 32px;
+    border:none;
+    border-radius:999px;
+    font-size:16px;
+    cursor:pointer;
+    transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
+    user-select:none;
+  }
+
+  #no{
+    background:#fff;
+    color:#111;
+    box-shadow: 0 8px 18px rgba(255,255,255,0.12);
+  }
+  #no:hover{ transform: translateY(-1px) scale(1.03); }
+
+  #yes{
+    position:absolute;
+    background: linear-gradient(45deg, #ff2b2b, #ff6b6b);
+    color:#fff;
+    box-shadow: 0 10px 24px rgba(255, 0, 0, 0.25);
+  }
+
+  .continue{
+    background: linear-gradient(45deg, #ff2b2b, #ff6b6b);
+    color:white;
+    box-shadow: 0 10px 24px rgba(255, 0, 0, 0.25);
+  }
+  .continue:hover{ transform: translateY(-1px) scale(1.03); }
+
+  .page{ display:none; }
+  .page.active{ display:block; }
+
+  /* Final lyrics styling */
+  #p4{ font-size:18px; line-height:1.75; }
+  #p4 h2{ margin-top:18px; }
 </style>
-<!-- PAGE 1 -->
-<div id="p1">
-  <h2>im haneef your favorite child?</h2>
-  <button id="yes" style="position:absolute;background:red;color:white;">YES</button>
-  <button id="no">NO</button>
-</div>
-<!-- PAGE 2 -->
-<div id="p2" style="display:none;">
-  <h1>Try escaping </h1>
-  <button onclick="goP3()">Continue</button>
-</div>
-<!-- PAGE 3 -->
-<div id="p3" style="display:none;">
-  <h1>Sorry yaar, galti hogayi </h1>
-  <button onclick="goP4()">Continue</button>
-</div>
-<!-- PAGE 4 (LYRICS FINAL) -->
-<div id="p4" style="display:none;font-size:20px;line-height:1.7;padding:20px;">
-  
-  <p>Tu jo rootha toh kaun hansega </p>
-  <p>Tu jo chhoota toh kaun rahega </p>
-  <p>Tu chup hai toh yeh darr lagta hai </p>
-  <p>Apna mujhko ab kaun kahega </p>
-  <p>Meethi si woh... gaali teri </p>
-  <p>Sun’ne ko taiyaar hoon main </p>
-  <h2>Sorry yaar </h2>
-</div>
+</head>
+
+<body>
+  <div class="card">
+
+    <!-- PAGE 1 -->
+    <div id="p1" class="page active">
+      <h2>Do you really think you can find Sukoon without my bakbak?</h2>
+
+      <div class="btn-area" id="btnArea">
+        <button id="yes">YES</button>
+        <button id="no">NO</button>
+      </div>
+    </div>
+
+    <!-- PAGE 2 -->
+    <div id="p2" class="page">
+      <h1>Try escaping</h1>
+      <button class="continue" onclick="goP3()">Continue</button>
+    </div>
+
+    <!-- PAGE 3 -->
+    <div id="p3" class="page">
+      <h1>Sorry yaar, galti hogayi</h1>
+      <button class="continue" onclick="goP4()">Continue</button>
+    </div>
+
+    <!-- PAGE 4 -->
+    <div id="p4" class="page">
+      <p>Tu jo rootha toh kaun hansega</p>
+      <p>Tu jo chhoota toh kaun rahega</p>
+      <p>Tu chup hai toh yeh darr lagta hai</p>
+      <p>Apna mujhko ab kaun kahega</p>
+      <p>Meethi si woh... gaali teri</p>
+      <p>Sun’ne ko taiyaar hoon main</p>
+      <h2>Sorry yaar</h2>
+    </div>
+
+  </div>
+
 <script>
-let yes = document.getElementById("yes");
-let no = document.getElementById("no");
-// YES keeps escaping forever
-function moveYes() {
-  yes.style.left = Math.random() * (window.innerWidth - 120) + "px";
-  yes.style.top = Math.random() * (window.innerHeight - 60) + "px";
-}
-yes.onmouseover = moveYes;
-yes.onclick = moveYes;
-yes.ontouchstart = moveYes;
-// NO button → next page
-no.onclick = function() {
-  p1.style.display = "none";
-  p2.style.display = "block";
-};
-// Page navigation
-function goP3() {
-  p2.style.display = "none";
-  p3.style.display = "block";
-}
-function goP4() {
-  p3.style.display = "none";
-  p4.style.display = "block";
-}
+  const yes = document.getElementById("yes");
+  const no = document.getElementById("no");
+  const btnArea = document.getElementById("btnArea");
+
+  const p1 = document.getElementById("p1");
+  const p2 = document.getElementById("p2");
+  const p3 = document.getElementById("p3");
+  const p4 = document.getElementById("p4");
+
+  // Put YES initially near center (so it looks aligned)
+  function placeYesCenter(){
+    const area = btnArea.getBoundingClientRect();
+    const bw = yes.offsetWidth;
+    const bh = yes.offsetHeight;
+    yes.style.left = (area.width/2 - bw - 10) + "px";
+    yes.style.top  = (area.height/2 - bh/2) + "px";
+  }
+  window.addEventListener("load", placeYesCenter);
+  window.addEventListener("resize", placeYesCenter);
+
+  // YES escapes but stays INSIDE the button area
+  function moveYes(){
+    const area = btnArea.getBoundingClientRect();
+    const bw = yes.offsetWidth;
+    const bh = yes.offsetHeight;
+
+    const maxX = area.width - bw;
+    const maxY = area.height - bh;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    yes.style.left = x + "px";
+    yes.style.top = y + "px";
+  }
+
+  yes.addEventListener("mouseover", moveYes);
+  yes.addEventListener("click", moveYes);
+  yes.addEventListener("touchstart", moveYes);
+
+  // NO button -> next page
+  no.onclick = () => {
+    p1.classList.remove("active");
+    p2.classList.add("active");
+  };
+
+  function goP3(){
+    p2.classList.remove("active");
+    p3.classList.add("active");
+  }
+
+  function goP4(){
+    p3.classList.remove("active");
+    p4.classList.add("active");
+  }
 </script>
 </body>
 </html>
