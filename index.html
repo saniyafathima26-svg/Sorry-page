@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,12 +30,14 @@
   h1,h2{ margin:0 0 18px; }
   p{ margin:8px 0; opacity:0.95; }
 
-  /* BIGGER SPACE so buttons move more */
   .btn-area{
     margin-top:22px;
     position:relative;
-    width:100%;
-    height:200px; /* bigger area */
+    height:90px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap: 12px;
   }
 
   button{
@@ -83,7 +86,7 @@
       <h2>Do you really think you can find Sukoon without my bakbak?</h2>
       <div class="btn-area" id="area1">
         <button id="yes1" class="btn-yes">YES</button>
-        <button id="no1" class="btn-no" style="position:absolute;">NO</button>
+        <button id="no1" class="btn-no">NO</button>
       </div>
     </div>
 
@@ -92,7 +95,7 @@
       <h2>Are you angry with me?</h2>
       <div class="btn-area" id="area2">
         <button id="yes2" class="btn-yes">YES</button>
-        <button id="no2" class="btn-no" style="position:absolute;">NO</button>
+        <button id="no2" class="btn-no">NO</button>
       </div>
     </div>
 
@@ -100,7 +103,7 @@
     <div id="p3" class="page">
       <h2>Do you think you listen to me?</h2>
       <div class="btn-area" id="area3">
-        <button id="yes3" class="continue" style="position:absolute;">YES</button>
+        <button id="yes3" class="continue">YES</button>
         <button id="no3" class="btn-no" style="position:absolute;">NO</button>
       </div>
     </div>
@@ -109,7 +112,7 @@
     <div id="p4" class="page">
       <h2>Am I your favourite?</h2>
       <div class="btn-area" id="area4">
-        <button id="yes4" class="continue" style="position:absolute;">YES</button>
+        <button id="yes4" class="continue">YES</button>
         <button id="no4" class="btn-no" style="position:absolute;">NO</button>
       </div>
     </div>
@@ -118,16 +121,16 @@
     <div id="p5" class="page">
       <h2>Sani’s way or your way?</h2>
       <div class="btn-area" id="area5">
-        <button id="myWay" class="continue" style="position:absolute;">SANI’S WAY</button>
+        <button id="myWay" class="continue">SANI’S WAY</button>
         <button id="yourWay" class="btn-no" style="position:absolute;">YOUR WAY</button>
       </div>
     </div>
 
-    <!-- PAGE 6 -->
+    <!-- PAGE 6: SURRENDER -->
     <div id="p6" class="page">
       <h2>Faisss, ab convince ho gaye ki mai aur bolun?</h2>
       <div class="btn-area" id="area6">
-        <button id="surrender" class="continue" style="position:absolute;">I SURRENDER</button>
+        <button id="surrender" class="continue">I SURRENDER</button>
         <button id="never" class="btn-no" style="position:absolute;">NEVER</button>
       </div>
     </div>
@@ -157,24 +160,21 @@
 
 <script>
   const pages = ["p1","p2","p3","p4","p5","p6","p7"];
-
-  function show(id){
+  const show = (id) => {
     pages.forEach(p => document.getElementById(p).classList.remove("active"));
     document.getElementById(id).classList.add("active");
     if(id === "p7") playSong();
-  }
+  };
 
-  // Place fixed buttons nicely (not moving ones)
-  function place(btn, area, xPct, yPct){
-    const r = area.getBoundingClientRect();
-    const bw = btn.offsetWidth;
-    const bh = btn.offsetHeight;
-    btn.style.left = (r.width * xPct - bw/2) + "px";
-    btn.style.top  = (r.height * yPct - bh/2) + "px";
-  }
-
-  // ESCAPE inside bigger area (moves a lot)
   function makeEscape(btn, area){
+    function placeNearCenter(){
+      const r = area.getBoundingClientRect();
+      const bw = btn.offsetWidth;
+      const bh = btn.offsetHeight;
+      btn.style.left = (r.width * 0.62 - bw/2) + "px";
+      btn.style.top  = (r.height/2 - bh/2) + "px";
+    }
+
     function move(){
       const r = area.getBoundingClientRect();
       const bw = btn.offsetWidth;
@@ -184,4 +184,36 @@
       btn.style.left = (Math.random() * maxX) + "px";
       btn.style.top  = (Math.random() * maxY) + "px";
     }
-    btn.addEventList
+
+    window.addEventListener("load", placeNearCenter);
+    window.addEventListener("resize", placeNearCenter);
+
+    btn.addEventListener("mouseover", move);
+    btn.addEventListener("click", move);
+    btn.addEventListener("touchstart", move);
+  }
+
+  // Escapes
+  makeEscape(document.getElementById("yes1"), document.getElementById("area1"));   // Page1 YES escapes
+  makeEscape(document.getElementById("yes2"), document.getElementById("area2"));   // Page2 YES escapes
+  makeEscape(document.getElementById("no3"), document.getElementById("area3"));    // Page3 NO escapes
+  makeEscape(document.getElementById("no4"), document.getElementById("area4"));    // Page4 NO escapes
+  makeEscape(document.getElementById("yourWay"), document.getElementById("area5")); // Page5 YOUR WAY escapes
+  makeEscape(document.getElementById("never"), document.getElementById("area6"));  // Page6 NEVER escapes
+
+  // Click routes
+  document.getElementById("no1").onclick = () => show("p2");
+  document.getElementById("no2").onclick = () => show("p3");
+  document.getElementById("yes3").onclick = () => show("p4");
+  document.getElementById("yes4").onclick = () => show("p5");
+  document.getElementById("myWay").onclick = () => show("p6");
+  document.getElementById("surrender").onclick = () => show("p7");
+
+  function playSong(){
+    const song = document.getElementById("song");
+    song.play().catch(()=>{});
+  }
+</script>
+</body>
+</html>
+```
