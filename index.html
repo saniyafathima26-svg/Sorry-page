@@ -10,52 +10,60 @@ body{
   margin:0;
   height:100vh;
   background: radial-gradient(circle at top, #141414, #000);
-  font-family: "Segoe UI", Arial, sans-serif;
+  font-family:"Segoe UI", Arial, sans-serif;
   color:white;
   overflow:hidden;
   position:relative;
 }
 
-/* Centered card */
+/* Centered Card */
 .card{
   position:absolute;
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  width:min(520px, 92vw);
-  padding:38px 28px;
+  width:min(520px,92vw);
+  padding:40px 30px;
   border-radius:22px;
   text-align:center;
-  background: rgba(255,255,255,0.06);
+  background:rgba(255,255,255,0.06);
   border:1px solid rgba(255,255,255,0.12);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.65);
+  backdrop-filter:blur(12px);
+  box-shadow:0 20px 60px rgba(0,0,0,0.65);
 }
 
-/* FULL SCREEN BUTTONS */
-button{
-  position:absolute;
-  padding:14px 34px;
+.card h2{
+  margin-bottom:30px;
+}
+
+/* NO button stays aligned under question */
+.no{
+  padding:14px 36px;
   border:none;
   border-radius:999px;
   font-size:16px;
   cursor:pointer;
-  transition:0.15s;
-}
-
-.yes{
-  background: linear-gradient(45deg, #ff2b2b, #ff6b6b);
-  color:white;
-  box-shadow:0 0 25px rgba(255,0,0,0.4);
-}
-
-.no{
   background:white;
   color:black;
+  transition:.2s;
 }
 
-button:hover{
+.no:hover{
   transform:scale(1.05);
+}
+
+/* YES moves full screen */
+.yes{
+  position:absolute;
+  padding:14px 36px;
+  border:none;
+  border-radius:999px;
+  font-size:16px;
+  cursor:pointer;
+  background:linear-gradient(45deg,#ff2b2b,#ff6b6b);
+  color:white;
+  box-shadow:0 0 25px rgba(255,0,0,0.4);
+  transition:.15s;
 }
 </style>
 </head>
@@ -64,42 +72,35 @@ button:hover{
 
 <div class="card">
   <h2>Do you really think you can find Sukoon without my bakbak?</h2>
+  <button id="no" class="no">NO</button>
 </div>
 
 <button id="yes" class="yes">YES</button>
-<button id="no" class="no">NO</button>
 
 <script>
-
 const yes = document.getElementById("yes");
-const no = document.getElementById("no");
 
-/* Initial placement */
-function placeInitial(){
-  yes.style.left = window.innerWidth/2 + 60 + "px";
+/* Initial YES position (center-right of screen) */
+function placeYes(){
+  yes.style.left = window.innerWidth/2 + 120 + "px";
   yes.style.top  = window.innerHeight/2 + "px";
-
-  no.style.left  = window.innerWidth/2 - 140 + "px";
-  no.style.top   = window.innerHeight/2 + "px";
 }
 
-window.onload = placeInitial;
-window.onresize = placeInitial;
+window.onload = placeYes;
+window.onresize = placeYes;
 
-/* FULL SCREEN ESCAPE */
-function move(btn){
-  const maxX = window.innerWidth - btn.offsetWidth;
-  const maxY = window.innerHeight - btn.offsetHeight;
+/* Full screen escape */
+function moveYes(){
+  const maxX = window.innerWidth - yes.offsetWidth;
+  const maxY = window.innerHeight - yes.offsetHeight;
 
-  btn.style.left = Math.random() * maxX + "px";
-  btn.style.top  = Math.random() * maxY + "px";
+  yes.style.left = Math.random() * maxX + "px";
+  yes.style.top  = Math.random() * maxY + "px";
 }
 
-/* Make YES escape */
-yes.addEventListener("mouseenter", () => move(yes));
-yes.addEventListener("mousemove", () => move(yes));
-yes.addEventListener("touchstart", () => move(yes));
-
+yes.addEventListener("mouseenter", moveYes);
+yes.addEventListener("mousemove", moveYes);
+yes.addEventListener("touchstart", moveYes);
 </script>
 
 </body>
